@@ -1,0 +1,150 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id String @id @default(uuid())
+  username String @unique
+  email String @unique 
+  password String
+  role String
+  group Member[]
+  review Review[]
+  playlist Playlist[]
+  music Music[]
+  video Video[]
+  ownerGroup Group[]
+  album Album[]
+  createdAt DateTime @default(now())
+  @@map("users")
+}
+
+model Group{
+  id String @id @default(uuid())
+  name String @unique
+  description String?
+  visibility Boolean
+  user Member[]
+  playlist Playlist[]
+  video Video[]
+  music Music[]
+  album Album[]
+  ownerId String
+  owner User @relation(fields: [ownerId], references: [id])
+  createdAt DateTime @default(now())
+  @@map("groups")
+}
+
+model Member{
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  groupId String
+  group Group @relation(fields: [groupId], references: [id])
+
+  role String
+  @@id([userId, groupId])
+
+  @@map("members")
+}
+
+model Artist{
+  id String @id @default(uuid())
+  name String @unique
+  music Music[]
+  album Album[]
+  @@map("artists")
+}
+
+model Video{
+  id String @id @default(uuid())
+  title String
+  path String @unique
+  description String?
+  filename String
+  mimetype String
+  size BigInt
+  group Group[]
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  @@map("videos")
+}
+
+model Music{
+  id String @id @default(uuid())
+  title String
+  description String?
+  lyrics String? @db.Text
+  publisher String
+  path String @unique
+  filename String
+  mimetype String
+  composer Composer[]
+  playlist Playlist[]
+  group Group[]
+  artistId String
+  artist Artist @relation(fields: [artistId], references: [id])
+  albumId String?
+  album Album? @relation(fields: [albumId], references: [id])
+  genreId String 
+  genre Genre @relation(fields: [genreId], references: [id])
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  @@map("music")
+}
+
+model Composer{
+  id String @id @default(uuid())
+  name String
+  music Music[]
+  @@map("composers")
+}
+
+model Genre{
+  id String @id @default(uuid())
+  name String
+  music Music[]
+  @@map("genres")
+}
+
+model Album{
+  id String @id @default(uuid())
+  title String
+  release_date String
+  music Music[]
+  review Review[]
+  group Group[]
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  artistId String
+  artist Artist @relation(fields: [artistId], references: [id])
+  @@map("albums")
+}
+
+model Review{
+  id String @id @default(uuid())
+  rating Int
+  comment String?
+  albumId String @unique
+  album Album @relation(fields: [albumId], references: [id])
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  @@map("reviews")
+}
+
+model Playlist{
+  id String @id @default(uuid())
+  name String
+  group Group[]
+  music Music[]
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  @@map("playlists")
+}  

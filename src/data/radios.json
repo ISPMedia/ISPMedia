@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "radio 5",
+    "country": "Angola",
+    "freq": "",
+    "url": "http"
+  },
+  {
+    "id": 3,
+    "name": "Rádio Mais",
+    "country": "Angola",
+    "freq": "99.1",
+    "url": "https://radios.justweb.pt/8050/stream/?1685627470876"
+  }
+]
