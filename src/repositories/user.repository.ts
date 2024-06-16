@@ -7,6 +7,7 @@ class UserRepositoryPrisma implements UserRepository {
     const defaultGroup = await prisma.group.findUnique({
       where: { name: "public" },
     });
+
     if (!defaultGroup) {
       throw new Error("Default group not found");
     }

@@ -29,7 +29,7 @@ userRoutes.post("/register", async (req: Request, res: Response) => {
       username,
       email,
       password: hashSync(password, SALT_ROUNDS),
-      role: role == null ? "user" : role,
+      role: role === null ? "user" : role,
     });
     return res.status(201).send({ userId: data });
   } catch (error) {

@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import { AlbumUseCase } from "../usecases/album.usecases";
 import { authenticate } from "../middlewares/authenticate";
-
+ 
 const albumRoutes: Router = Router();
 const albumUseCase = new AlbumUseCase();
 

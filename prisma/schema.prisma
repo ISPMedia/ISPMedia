@@ -111,7 +111,7 @@ model Genre{
   name String
   music Music[]
   @@map("genres")
-}
+} 
 
 model Album{
   id String @id @default(uuid())
