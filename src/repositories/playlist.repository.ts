@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma";
+import { replacer } from "../utils/helpersFunctions";
 import {
   IPlaylistRepository,
   PlaylistCreate,
@@ -36,13 +37,24 @@ class PlaylistRepositoryPrisma implements IPlaylistRepository {
       where: {
         id,
       },
+      include: {
+        group: true,
+        music: true,
+        user: true,
+      },
     });
-    return result;
+    return JSON.parse(JSON.stringify(result, replacer));
   }
 
   async getAllPlaylist(): Promise<any> {
-    const result = await prisma.playlist.findMany({});
-    return result;
+    const result = await prisma.playlist.findMany({
+      include: {
+        group: true,
+        music: true,
+        user: true,
+      },
+    });
+    return JSON.parse(JSON.stringify(result, replacer));
   }
 
   async addMusicToPlaylist(musicId: string, playlistId: string): Promise<any> {
