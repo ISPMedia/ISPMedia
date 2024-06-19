@@ -1,4 +1,5 @@
 import { prisma } from "../lib/prisma";
+import { replacer } from "../utils/helpersFunctions";
 import { AlbumCreate, IAlbumRepository } from "../interfaces/album.interface";
 
 class AlbumRepositoryPrisma implements IAlbumRepository {
@@ -35,7 +36,7 @@ class AlbumRepositoryPrisma implements IAlbumRepository {
       }
       albumData.artistId = artistId;
     }
-    
+
     const album = await prisma.album.create({
       data: albumData,
     });
@@ -56,13 +57,28 @@ class AlbumRepositoryPrisma implements IAlbumRepository {
       where: {
         id,
       },
+      include: {
+        music: true,
+        review: true,
+        group: true,
+        artist: true,
+        user: true,
+      },
     });
-    return result;
+    return JSON.parse(JSON.stringify(result, replacer));
   }
-  
+
   async getAllAlbum(): Promise<any> {
-    const result = await prisma.album.findMany({});
-    return result;
+    const result = await prisma.album.findMany({
+      include: {
+        music: true,
+        review: true,
+        group: true,
+        artist: true,
+        user: true,
+      },
+    });
+    return JSON.parse(JSON.stringify(result, replacer));
   }
 }
 
