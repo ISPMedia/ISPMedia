@@ -1,6 +1,5 @@
 import { prisma } from "../lib/prisma";
 import { AlbumCreate, IAlbumRepository } from "../interfaces/album.interface";
-import { compareSync } from "bcrypt";
 
 class AlbumRepositoryPrisma implements IAlbumRepository {
   async create(data: AlbumCreate): Promise<string> {

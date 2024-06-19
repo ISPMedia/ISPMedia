@@ -60,7 +60,19 @@ musicRoutes.get("/", async (req: Request, res: Response) => {
   }
 });
 
-musicRoutes.get("/:musicId", async (req: Request, res: Response) => {});
+musicRoutes.get("/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const music = await musicUsecase.getMusicById(id);
+    if (!music) {
+      return res.status(404).send({ message: "Music not found!" });
+    }
+    return res.status(200).send(music);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 musicRoutes.get("/play/:musicId", async (req: Request, res: Response) => {});
 

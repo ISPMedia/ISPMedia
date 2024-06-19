@@ -75,7 +75,13 @@ class MusicRepositoryPrisma implements IMusicRepository {
   }
 
   async getMusicById(id: string): Promise<any> {
-    return null!;
+    const result = await prisma.music.findUnique({
+      where:{
+        id
+      }
+    })
+    //const music = {...result, size: result?.size.toString()}
+    return result;
   }
 
   async getAllMusic(): Promise<any> {
