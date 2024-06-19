@@ -1,4 +1,4 @@
-export function grant_editor_privileges(userId: string) {}
+import { randomInt } from "crypto";
 
 export function immediate_editor_privileges_notification() {}
 
@@ -26,4 +26,9 @@ export function validate_email(email: string): boolean {
 
 export const replacer = (key: string, value: any): any => {
   return typeof value === "bigint" ? value.toString() : value;
+};
+
+export const generateSecureConfirmationCode = () => {
+  const code = randomInt(100000, 1000000); // randomInt generates a random integer in the range [min, max)
+  return code.toString();
 };
