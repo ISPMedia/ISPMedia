@@ -2,39 +2,54 @@ import { Router, Request, Response } from "express";
 import multer from "multer";
 import createMulterConfig from "../utils/multerConfig";
 import { authenticate } from "../middlewares/authenticate";
+import { compress_media, deleteFile } from "../utils/helpersFunctions";
 import fs from "fs";
 import path, { join, resolve } from "path";
 import { VideoUseCase } from "../usecases/video.usecases";
 
+const savePath = resolve(__dirname, "..", "..", "uploads/video");
+
 const upload = multer(
-  createMulterConfig(resolve(__dirname, "..", "..", "uploads/video"), [
-    "video/mp4",
-    "video/mkv",
-  ])
+  createMulterConfig(savePath, ["video/mp4", "video/mkv"])
 ).single("file");
 
 const videoRoutes: Router = Router();
 const videoUseCase = new VideoUseCase();
 
-videoRoutes.post("/uploads", authenticate, (req: Request, res: Response) => {
+videoRoutes.post("/uploads", (req: Request, res: Response) => {
   return upload(req, res, async (error) => {
     if (!req.file) {
       return res.status(400).json({ message: error.message });
     }
 
     const { title, description } = req.body;
-    const data = await videoUseCase.create({
-      title,
-      description,
-      path: req.file.path,
-      filename: req.file.filename,
-      mimetype: req.file.mimetype,
-      size: BigInt(req.file.size),
-      userId: req.user.id,
-    });
-    return res
-      .status(201)
-      .send({ videoId: data, message: "File uploaded successfully" });
+    const tempPath = req.file.path;
+    const outputFileName = "compressed_" + req.file.filename;
+    const outputPath = path.join(savePath, outputFileName);
+
+    try {
+      await compress_media(tempPath, outputPath);
+
+      const videoData = resolve(outputPath);
+      const videoSize = fs.statSync(videoData).size;
+
+      const data = await videoUseCase.create({
+        title,
+        description,
+        path: outputPath,
+        filename: outputFileName,
+        mimetype: req.file.mimetype,
+        size: BigInt(videoSize),
+        userId: req.user.id,
+      });
+
+      //remove temporary files
+      await deleteFile(tempPath);
+
+      return res
+        .status(201)
+        .send({ videoId: data, message: "File uploaded successfully" });
+    } catch (error) {}
   });
 });
 
