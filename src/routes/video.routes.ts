@@ -16,7 +16,7 @@ const upload = multer(
 const videoRoutes: Router = Router();
 const videoUseCase = new VideoUseCase();
 
-videoRoutes.post("/uploads", (req: Request, res: Response) => {
+videoRoutes.post("/uploads", authenticate, (req: Request, res: Response) => {
   return upload(req, res, async (error) => {
     if (!req.file) {
       return res.status(400).json({ message: error.message });
@@ -49,50 +49,57 @@ videoRoutes.post("/uploads", (req: Request, res: Response) => {
       return res
         .status(201)
         .send({ videoId: data, message: "File uploaded successfully" });
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
   });
 });
 
-videoRoutes.get("/play/:id", async (req: Request, res: Response) => {
-  const range = req.headers.range;
-  const { id } = req.params;
-  try {
-    const video = await videoUseCase.getVideoById(id);
-    if (!video) {
-      return res.status(404).send({
-        message: "Video not found!",
-      });
+videoRoutes.get(
+  "/play/:id",
+  authenticate,
+  async (req: Request, res: Response) => {
+    const range = req.headers.range;
+    const { id } = req.params;
+    try {
+      const video = await videoUseCase.getVideoById(id);
+      if (!video) {
+        return res.status(404).send({
+          message: "Video not found!",
+        });
+      }
+      const videoPath = resolve(video.path);
+      const videoSize = fs.statSync(videoPath).size;
+
+      if (!range) {
+        return res.status(400).send("Range header is required");
+      }
+
+      // Parse Range
+      const CHUNK_SIZE = 10 ** 6; // 1MB
+      const start = Number(range.replace(/\D/g, ""));
+      const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
+
+      const contentLength = end - start + 1;
+      const headers = {
+        "Content-Range": `bytes ${start}-${end}/${videoSize}`,
+        "Accept-Ranges": "bytes",
+        "Content-Length": contentLength,
+        "Content-Type": `${video.mimetype}`,
+      };
+      res.writeHead(206, headers);
+
+      // create read stream for the part of the video
+      const videoStream = fs.createReadStream(videoPath, { start, end });
+      videoStream.pipe(res);
+    } catch (error) {
+      res.status(500).send(error);
     }
-    const videoPath = resolve(video.path);
-    const videoSize = fs.statSync(videoPath).size;
-
-    if (!range) {
-      return res.status(400).send("Range header is required");
-    }
-
-    // Parse Range
-    const CHUNK_SIZE = 10 ** 6; // 1MB
-    const start = Number(range.replace(/\D/g, ""));
-    const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
-
-    const contentLength = end - start + 1;
-    const headers = {
-      "Content-Range": `bytes ${start}-${end}/${videoSize}`,
-      "Accept-Ranges": "bytes",
-      "Content-Length": contentLength,
-      "Content-Type": `${video.mimetype}`,
-    };
-    res.writeHead(206, headers);
-
-    // create read stream for the part of the video
-    const videoStream = fs.createReadStream(videoPath, { start, end });
-    videoStream.pipe(res);
-  } catch (error) {
-    res.status(500).send(error);
   }
-});
+);
 
-videoRoutes.get("/:id", async (req: Request, res: Response) => {
+videoRoutes.get("/:id", authenticate, async (req: Request, res: Response) => {
   const { id } = req.params;
   const video = await videoUseCase.getVideoById(id);
   if (!video) {
@@ -107,7 +114,7 @@ videoRoutes.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-videoRoutes.get("/", async (req: Request, res: Response) => {
+videoRoutes.get("/", authenticate, async (req: Request, res: Response) => {
   try {
     const videos = await videoUseCase.getAllVideo();
     return res.status(200).send({ videos });
@@ -116,22 +123,26 @@ videoRoutes.get("/", async (req: Request, res: Response) => {
   }
 });
 
-videoRoutes.delete("/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
+videoRoutes.delete(
+  "/:id",
+  authenticate,
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
 
-  const existVideo = await videoUseCase.getVideoById(id);
-  if (!existVideo) {
-    return res.status(404).send({
-      message: "Video not found!",
-    });
+    const existVideo = await videoUseCase.getVideoById(id);
+    if (!existVideo) {
+      return res.status(404).send({
+        message: "Video not found!",
+      });
+    }
+    try {
+      await videoUseCase.delete(id);
+      res.status(200).json({ message: "Video successfully deleted" });
+    } catch (error) {
+      res.status(500).send(error);
+    }
   }
-  try {
-    await videoUseCase.delete(id);
-    res.status(200).json({ message: "Video successfully deleted" });
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+);
 
 videoRoutes.get("/download", async (req: Request, res: Response) => {
   try {
