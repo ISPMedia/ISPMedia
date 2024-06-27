@@ -1,5 +1,7 @@
 import { prisma } from "../lib/prisma";
+import { hashSync } from "bcrypt";
 
+const SALT_ROUNDS = 10;
 const defaultAdmin = {
   username: "admin",
   password: "admin",
@@ -22,7 +24,7 @@ export const initialData = async () => {
     const user = await prisma.user.create({
       data: {
         username: defaultAdmin.username,
-        password: defaultAdmin.password,
+        password: hashSync(defaultAdmin.password, SALT_ROUNDS),
         email: defaultAdmin.email,
         role: defaultAdmin.role,
       },
