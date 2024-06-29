@@ -14,7 +14,7 @@ class GroupRepositoryPrisma implements GroupRepository {
         name: data.name,
         description: data.description,
         visibility: data.visibility,
-        ownerId: data.owner,
+        owner: { connect: { id: data.owner } },
       },
     });
 
@@ -32,7 +32,7 @@ class GroupRepositoryPrisma implements GroupRepository {
             email: true,
             role: true,
             createdAt: true,
-          }, 
+          },
         },
         playlist: true,
         video: true,

@@ -35,8 +35,7 @@ model Group{
   video Video[]
   music Music[]
   album Album[]
-  ownerId String
-  owner User @relation(fields: [ownerId], references: [id])
+  owner User []
   createdAt DateTime @default(now())
   @@map("groups")
 }
@@ -71,6 +70,7 @@ model Video{
   mimetype String
   size BigInt
   group Group[]
+  playlist Playlist[]
   userId String
   user User @relation(fields: [userId], references: [id])
   @@map("videos")
@@ -144,6 +144,7 @@ model Playlist{
   name String
   group Group[]
   music Music[]
+  video Video[]
   userId String
   user User @relation(fields: [userId], references: [id])
   @@map("playlists")
