@@ -2,6 +2,7 @@ import { randomInt } from "crypto";
 import ffmpegPath from "@ffmpeg-installer/ffmpeg";
 import ffmpeg from "fluent-ffmpeg";
 import fs from "fs";
+import path from 'path';
 
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 
@@ -62,3 +63,17 @@ export const deleteFile = (filePath: string) => {
     });
   });
 };
+
+export function ensureDirectoryExists(directoryPath: string): void {
+  // Resolve the directory path
+  const resolvedPath = path.resolve(directoryPath);
+
+  // Check if the directory exists
+  if (!fs.existsSync(resolvedPath)) {
+    // If it does not exist, create the directory (and any necessary parent directories)
+    fs.mkdirSync(resolvedPath, { recursive: true });
+    console.log(`Directory '${resolvedPath}' created successfully.`);
+  } else {
+    console.log(`Directory '${resolvedPath}' already exists.`);
+  }
+}

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import multer, { FileFilterCallback, MulterError } from "multer";
 import { extname, resolve } from "path";
+import { ensureDirectoryExists } from "./helpersFunctions";
 
 const createMulterConfig = (
   destinationPath: string,
@@ -24,6 +25,7 @@ const createMulterConfig = (
     },
     storage: multer.diskStorage({
       destination: (req, file, cb) => {
+        ensureDirectoryExists(destinationPath);
         cb(null, resolve(destinationPath));
       },
       filename: (req, file, cb) => {
