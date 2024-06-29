@@ -81,15 +81,12 @@ userRoutes.post("/login", async (req: Request, res: Response) => {
   };
 
   const token = jwt.sign(payload, JWT_SECRET);
-  res.cookie(
-    "access_token",
-    token , {
+  res.cookie("access_token", token, {
     httpOnly: false,
     secure: true,
-    expires: new Date(Date.now() + 900000),
-    sameSite: 'none'
-  }
-  );
+    expires: new Date(Date.now() + 60 * 60 * 1000),
+    sameSite: "none",
+  });
   return res.send({ accessToken: token, user: payload });
 });
 
@@ -97,7 +94,11 @@ userRoutes.post(
   "/logout",
   authenticate,
   async (req: Request, res: Response) => {
-    res.clearCookie("access_token");
+    res.clearCookie("access_token", {
+      httpOnly: false,
+      secure: true,
+      sameSite: "none",
+    });
     return res.send({ message: "Logout successful" });
   }
 );
