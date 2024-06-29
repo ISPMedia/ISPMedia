@@ -2,10 +2,10 @@ import { Request, Response } from "express";
 
 type UserPayload = {
   id: string;
-  email: string;
+  /*email: string;
   username: string;
   role: string;
-  createdAt: Date;
+  createdAt: Date;*/
 };
 
 declare global{

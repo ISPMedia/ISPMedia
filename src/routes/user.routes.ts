@@ -37,19 +37,23 @@ userRoutes.post("/register", async (req: Request, res: Response) => {
   }
 });
 
-userRoutes.get("/:userId",  authenticate,async (req: Request, res: Response) => {
-  const { userId } = req.params;
-  try {
-    const user = await userUseCase.getById(userId);
-    if (user === null) {
-      return res.status(404).send({ message: "User not found!" });
-    }
+userRoutes.get(
+  "/:userId",
+  authenticate,
+  async (req: Request, res: Response) => {
+    const { userId } = req.params;
+    try {
+      const user = await userUseCase.getById(userId);
+      if (user === null) {
+        return res.status(404).send({ message: "User not found!" });
+      }
 
-    return res.status(200).send(user);
-  } catch (error) {
-    res.status(500).send(error);
+      return res.status(200).send(user);
+    } catch (error) {
+      res.status(500).send(error);
+    }
   }
-});
+);
 
 userRoutes.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -77,17 +81,24 @@ userRoutes.post("/login", async (req: Request, res: Response) => {
   };
 
   const token = jwt.sign(payload, JWT_SECRET);
-
-  res.cookie("access_token", token, {
-    httpOnly: true,
+  res.cookie(
+    "access_token",
+    token , {
+    httpOnly: false,
     secure: true,
-  });
-
-  return res.send({ accessToken: token, user: userExist });
+    expires: new Date(Date.now() + 900000),
+    sameSite: 'none'
+  }
+  );
+  return res.send({ accessToken: token, user: payload });
 });
 
-userRoutes.post("/logout", authenticate ,async (req: Request, res: Response) => {
-  res.clearCookie("access_token");
-  return res.send({ message: "Logout successful" });
-});
+userRoutes.post(
+  "/logout",
+  authenticate,
+  async (req: Request, res: Response) => {
+    res.clearCookie("access_token");
+    return res.send({ message: "Logout successful" });
+  }
+);
 export default userRoutes;
