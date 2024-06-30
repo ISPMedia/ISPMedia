@@ -7,9 +7,27 @@ export async function authenticate(
   res: Response,
   next: NextFunction
 ) {
-  const token = req.cookies["access_token"];
-  if (!token) {
+  const tokenFromCookie = req.cookies["access_token"];
+  const { authorization } = req.headers;
+
+  if (!tokenFromCookie && !authorization) {
     return res.status(401).send({ message: "Authentication is required" });
+  }
+  
+  let token;
+
+  // Se o token estiver no header, extrai o token
+  if (authorization) {
+    const [type, tokenValue] = authorization.split(" ");
+    if (type !== "Bearer") {
+      return res.status(401).send({ message: "Invalid token format" });
+    }
+    token = tokenValue;
+  }
+
+  // Usa o token do cookie se não houver token no header
+  if (!token) {
+    token = tokenFromCookie;
   }
 
   try {
