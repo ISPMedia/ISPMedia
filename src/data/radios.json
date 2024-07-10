@@ -3,14 +3,210 @@
     "id": 1,
     "name": "radio 5",
     "country": "Angola",
-    "freq": "",
-    "url": "http"
+    "freq": "94.5",
+    "url": "https://radios.vpn.sapo.pt/AO/radio5.mp3"
   },
   {
-    "id": 3,
+    "id": 2,
     "name": "Rádio Mais",
     "country": "Angola",
     "freq": "99.1",
     "url": "https://radios.justweb.pt/8050/stream/?1685627470876"
+  },
+  {
+    "id": 3,
+    "name": "Rádio Filhos da Escola",
+    "country": "Portugal",
+    "freq": "1.1",
+    "url": "https://radios.justweb.pt/8050/stream/?1685627470876"
+  },
+  {
+    "id": 4,
+    "name": "Rádio Filhos da Escola",
+    "country": "Portugal",
+    "freq": "1.1",
+    "url": "http://176.9.43.216:8021/stream"
+  },
+  {
+    "id": 5,
+    "name": "Rádio Filhos da Escola",
+    "country": "Portugal",
+    "freq": "1.1",
+    "url": "http://176.9.43.216:8021/stream"
+  },
+  {
+    "id": 6,
+    "name": "Radio UNIA",
+    "country": "Angola",
+    "freq": "102.7",
+    "url": "https://radios.vpn.sapo.pt/AO/radio2.mp3"
+  },
+  {
+    "id": 7,
+    "name": "Radio Keirós",
+    "country": "Angola",
+    "freq": "100.5",
+    "url": "https://radios.vpn.sapo.pt/AO/radio9.mp3"
+  },
+  {
+    "id": 8,
+    "name": "Radio Escola",
+    "country": "Angola",
+    "freq": "105.6",
+    "url": "https://radios.vpn.sapo.pt/AO/radio1.mp3"
+  },
+  {
+    "id": 9,
+    "name": "Radio FM Stéreo",
+    "country": "Angola",
+    "freq": "97.3",
+    "url": "https://radios.vpn.sapo.pt/AO/radio7.mp3"
+  },
+  {
+    "id": 10,
+    "name": "Radio LAC",
+    "country": "Angola",
+    "freq": "105.6",
+    "url": "https://radios.vpn.sapo.pt/AO/radio14.mp3"
+  },
+  {
+    "id": 11,
+    "name": "RAI Radio 1",
+    "country": "Itália",
+    "freq": "105.6",
+    "url": "http://icestreaming.rai.it/1.mp3"
+  },
+  {
+    "id": 12,
+    "name": "Deutschlandfunk",
+    "country": "Alemanha",
+    "freq": "105.6",
+    "url": "http://st01.dlf.de/dlf/01/128/mp3/stream.mp3"
+  },
+  {
+    "id": 13,
+    "name": "RTL",
+    "country": "França",
+    "freq": "105.6",
+    "url": "http://streaming.radio.rtl.fr/rtl-1-44-128"
+  },
+  {
+    "id": 14,
+    "name": "Alfa 91.3",
+    "country": "Mexico",
+    "freq": "91.3",
+    "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/XHFAJ_FM.mp3"
+  },
+  {
+    "id": 15,
+    "name": "89 FM A Rádio Rock",
+    "country": "Brasil",
+    "freq": "89",
+    "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_89FM.mp3"
+  },
+  {
+    "id": 16,
+    "name": "Alpha FM São Paulo",
+    "country": "Brasil",
+    "freq": "101.7",
+    "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/RADIO_ALPHAFM.mp3"
+  },
+  {
+    "id": 17,
+    "name": "Aspen 102.3",
+    "country": "Argentina",
+    "freq": "102.3",
+    "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/ASPEN.mp3"
+  },
+  {
+    "id": 18,
+    "name": "BandNews FM São Paulo",
+    "country": "Brasil",
+    "freq": "desconhecido",
+    "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/BANDNEWSFM_SP.mp3"
+  },
+  {
+    "id": 19,
+    "name": "Batida FM",
+    "country": "Portugal",
+    "freq": "desconhecido",
+    "url": "https://stream-icy.bauermedia.pt/batidafm.mp3"
+  },
+  {
+    "id": 20,
+    "name": "Bott Radio Network",
+    "country": "USA",
+    "freq": "desconhecido",
+    "url": "https://streaming.live365.com/a71179"
+  },
+  {
+    "id": 21,
+    "name": "Central FM",
+    "country": "Espanha",
+    "freq": "desconhecido",
+    "url": "https://stream.rcs.revma.com/3p9gkcy5z72vv"
+  },
+  {
+    "id": 22,
+    "name": "FluxFM",
+    "country": "Alemanha",
+    "freq": "desconhecido",
+    "url": "http://channels.fluxfm.de/FluxFM/stream.mp3"
+  },
+  {
+    "id": 23,
+    "name": "JAM FM",
+    "country": "Alemanha",
+    "freq": "desconhecido",
+    "url": "http://stream.jam.fm/jamfm-nmr/mp3-192/"
+  },
+  {
+    "id": 24,
+    "name": "JAM FM",
+    "country": "Alemanha",
+    "freq": "desconhecido",
+    "url": "http://stream.jam.fm/jamfm-nmr/mp3-192/"
+  },
+  {
+    "id": 25,
+    "name": "JAM FM Berlin",
+    "country": "Alemanha",
+    "freq": "desconhecido",
+    "url": "http://stream.jam.fm/jamfm-live/mp3-192/"
+  },
+  {
+    "id": 26,
+    "name": "JAM FM Black Label",
+    "country": "USA",
+    "freq": "desconhecido",
+    "url": "http://stream.jam.fm/jamfm-bl/mp3-192/"
+  },
+  {
+    "id": 27,
+    "name": "Jovem Pan FM",
+    "country": "Brasil",
+    "freq": "desconhecido",
+    "url": "https://ice.fabricahost.com.br/jovempansp1009"
+  },
+  {
+    "id": 28,
+    "name": "Nation Radio North East",
+    "country": "India",
+    "freq": "10",
+    "url": "https://listen-nation.sharp-stream.com/sunfm.mp3"
+  },
+  {
+    "id": 29,
+    "name": "Nova Brasil FM Rio",
+    "country": "Brasil",
+    "freq": "desconhecido",
+    "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/NOVABRASIL_RIO.mp3"
+  },
+  {
+    "id": 30,
+    "name": "Nova Brasil SAO PAULO",
+    "country": "Brasil",
+    "freq": "desconhecido",
+    "url": "https://playerservices.streamtheworld.com/api/livestream-redirect/NOVABRASIL_SP.mp3"
   }
 ]

@@ -82,7 +82,6 @@ class UserRepositoryPrisma implements UserRepository {
     });
     return JSON.parse(JSON.stringify(result, replacer));
   }
-
   async update(id: string): Promise<any> {
     return null!;
   }
@@ -95,7 +94,15 @@ class UserRepositoryPrisma implements UserRepository {
   }
 
   async getAllUser(): Promise<any> {
-    const users = prisma.user.findMany({});
+    const users = prisma.user.findMany({
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        role: true,
+        createdAt: true,
+      },
+    });
     return users;
   }
 }

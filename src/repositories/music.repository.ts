@@ -9,7 +9,7 @@ class MusicRepositoryPrisma implements IMusicRepository {
     if (!defaultGroup) {
       throw new Error("Default group not found");
     }
-
+ 
     // Artist
     let artistId: string;
     const existingArtist = await prisma.artist.findFirst({
@@ -85,7 +85,15 @@ class MusicRepositoryPrisma implements IMusicRepository {
   }
 
   async getAllMusic(): Promise<any> {
-    const music = await prisma.music.findMany();
+    const music = await prisma.music.findMany({
+      include: {
+        artist: true,
+        genre: true,
+        playlist: true,
+        album: true,
+        composer: true
+      }
+    });
     return music;
   }
 }

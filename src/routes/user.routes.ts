@@ -55,6 +55,15 @@ userRoutes.get(
   }
 );
 
+userRoutes.get("/", authenticate, async (req: Request, res: Response) => {
+  try {
+    const user = await userUseCase.getAllUser();
+    return res.status(200).send(user);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 userRoutes.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
@@ -99,7 +108,7 @@ userRoutes.post(
       secure: true,
       sameSite: "none",
     });
-    
+
     return res.send({ message: "Logout successful" });
   }
 );

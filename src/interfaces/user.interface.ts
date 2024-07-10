@@ -48,4 +48,5 @@ export interface UserRepository {
   update(id: string): Promise<any>;
   delete(id: string): Promise<any>;
   getAllUser(): Promise<any>;
+  getAllUser(): Promise<any>;
 }
