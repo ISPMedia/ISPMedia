@@ -51,7 +51,7 @@ musicRoutes.post("/uploads", authenticate, (req: Request, res: Response) => {
   });
 });
 
-musicRoutes.get("/", async (req: Request, res: Response) => {
+musicRoutes.get("/", authenticate, async (req: Request, res: Response) => {
   try {
     const musics = await musicUsecase.getAllMusic();
     return res.status(200).json(musics);
@@ -60,7 +60,7 @@ musicRoutes.get("/", async (req: Request, res: Response) => {
   }
 });
 
-musicRoutes.get("/:id", async (req: Request, res: Response) => {
+musicRoutes.get("/:id", authenticate, async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
@@ -74,7 +74,7 @@ musicRoutes.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-musicRoutes.get("/play/:musicId", async (req: Request, res: Response) => {
+musicRoutes.get("/play/:musicId", authenticate, async (req: Request, res: Response) => {
   const range = req.headers.range;
     const { musicId } = req.params;
     try {
@@ -113,7 +113,7 @@ musicRoutes.get("/play/:musicId", async (req: Request, res: Response) => {
     }
 });
 
-musicRoutes.delete("/:musicId", async (req: Request, res: Response) => {
+musicRoutes.delete("/:musicId", authenticate, async (req: Request, res: Response) => {
   const { musicId } = req.params;
 
   const existMusic = await musicUsecase.getMusicById(musicId);
@@ -130,7 +130,7 @@ musicRoutes.delete("/:musicId", async (req: Request, res: Response) => {
   }
 });
 
-musicRoutes.put("/:musicId", async (req: Request, res: Response) => {
+musicRoutes.put("/:musicId", authenticate, async (req: Request, res: Response) => {
   if (!req.params) {
     return res.status(400).json({ message: "Missing music id" });
   }

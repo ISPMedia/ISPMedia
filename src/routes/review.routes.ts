@@ -46,7 +46,7 @@ reviewRoutes.get("/:id", authenticate,async (req: Request, res: Response) => {
   }
 });
 
-reviewRoutes.delete("/:id", async (req: Request, res: Response) => {
+reviewRoutes.delete("/:id", authenticate, async (req: Request, res: Response) => {
   const { id } = req.params;
   const existReview = await reviewUseCase.getReviewById(id);
   if (!existReview) {
@@ -62,7 +62,7 @@ reviewRoutes.delete("/:id", async (req: Request, res: Response) => {
   }
 });
 
-reviewRoutes.put("/", async (req: Request, res: Response) => {
+reviewRoutes.put("/", authenticate, async (req: Request, res: Response) => {
   try {
   } catch (error) {
     return res.status(500).send(error);

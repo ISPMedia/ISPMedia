@@ -58,6 +58,7 @@ videoRoutes.post("/uploads", authenticate, (req: Request, res: Response) => {
 
 videoRoutes.get(
   "/play/:id",
+  authenticate,
   async (req: Request, res: Response) => {
     const range = req.headers.range;
     const { id } = req.params;
@@ -142,45 +143,5 @@ videoRoutes.delete(
     }
   }
 );
-
-videoRoutes.get("/download", async (req: Request, res: Response) => {
-  try {
-    const video = await videoUseCase.getVideoById(
-      "ac4cfc7e-28c6-4441-898d-0873795b3874"
-    );
-    if (!video) {
-      return res.status(404).send({
-        message: "Video not found!",
-      });
-    }
-    const videoPath = resolve(video.path);
-    const videoSize = fs.statSync(videoPath).size;
-
-    const headers = {
-      "Content-Length": videoSize,
-      "Content-Type": `${video.mimetype}`,
-    };
-
-    res.writeHead(200, headers);
-
-    // create read stream for the video
-    const videoStream = fs.createReadStream(videoPath);
-
-    videoStream.pipe(res);
-
-    // Ensure the stream ends properly
-    videoStream.on("end", () => {
-      res.end();
-    });
-
-    // Handle stream errors
-    videoStream.on("error", (error) => {
-      console.error("Stream error:", error);
-      res.status(500).send("An error occurred while streaming the video");
-    });
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
 
 export default videoRoutes;
