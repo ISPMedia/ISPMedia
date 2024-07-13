@@ -69,8 +69,7 @@ videoRoutes.get(
         });
       }
       const videoPath = resolve(video.path);
-      return res.sendFile(videoPath);
-      /*const videoSize = fs.statSync(videoPath).size;
+      const videoSize = fs.statSync(videoPath).size;
 
       if (!range) {
         return res.status(400).send("Range header is required");
@@ -92,7 +91,7 @@ videoRoutes.get(
 
       // create read stream for the part of the video
       const videoStream = fs.createReadStream(videoPath, { start, end });
-      videoStream.pipe(res);*/
+      videoStream.pipe(res);
     } catch (error) {
       res.status(500).send(error);
     }
