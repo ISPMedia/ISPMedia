@@ -27,13 +27,13 @@ app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 app.use("/api", rootRouter);
 
 initialData();
-/*https
+https
   .createServer(
     {
       key: fs.readFileSync("certificates/key.pem"),
       cert: fs.readFileSync("certificates/cert.pem"),
     },
     app
-  )*/app.listen(PORT, () => {
+  ).listen(PORT, () => {
   console.log("HTTPS server running!");
 });
