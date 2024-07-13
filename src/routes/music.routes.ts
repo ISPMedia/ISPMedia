@@ -85,9 +85,7 @@ musicRoutes.get("/play/:musicId", async (req: Request, res: Response) => {
         });
       }
       const musicPath = resolve(music.path);
-      //return fs.readFileSync(musicPath)
-      return res.sendFile(musicPath);
-     /* const musicSize = fs.statSync(musicPath).size;
+      const musicSize = fs.statSync(musicPath).size;
 
       if (!range) {
         return res.status(400).send("Range header is required");
@@ -109,7 +107,7 @@ musicRoutes.get("/play/:musicId", async (req: Request, res: Response) => {
 
       // create read stream for the part of the music
       const musicStream = fs.createReadStream(musicPath, { start, end });
-      musicStream.pipe(res);*/
+      musicStream.pipe(res);
     } catch (error) {
       res.status(500).send(error);
     }
