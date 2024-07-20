@@ -112,4 +112,20 @@ userRoutes.post(
     return res.send({ message: "Logout successful" });
   }
 );
+
+userRoutes.put("/updaterole", async (req: Request, res: Response) => {
+  const { id, role } = req.body;
+
+  const user = await userUseCase.getById(id);
+      if (user === null) {
+        return res.status(404).send({ message: "User not found!" });
+      }
+
+  try {
+    const data = await userUseCase.updateUserRole(id, role);
+    return res.status(201).send({ user: data });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 export default userRoutes;

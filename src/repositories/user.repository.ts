@@ -82,8 +82,30 @@ class UserRepositoryPrisma implements UserRepository {
     });
     return JSON.parse(JSON.stringify(result, replacer));
   }
-  async update(id: string): Promise<any> {
-    return null!;
+  async updateUserRole(id: string, role: string): Promise<any> {
+    const user = prisma.user.update({
+      where: {
+        id,
+      },
+      data:{
+        role
+      },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        role: true,
+        createdAt: true, 
+        ownerGroup: true,
+        playlist: true,
+        review: true,
+        music: true,
+        video: true,
+        group: true,
+        album: true,
+      }
+    })
+    return user;
   }
   async delete(id: string): Promise<any> {
     await prisma.user.delete({

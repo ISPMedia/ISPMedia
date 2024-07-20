@@ -44,6 +44,11 @@ class UserUseCase {
     const users = await this.userRepository.getAllUser();
     return users;
   }
+  async updateUserRole(userId: string, role: string): Promise<any>{
+    const data = await this.userRepository.updateUserRole(userId, role);
+
+    return data;
+  }
 }
 
 export { UserUseCase };
