@@ -113,7 +113,7 @@ userRoutes.post(
   }
 );
 
-userRoutes.put("/updaterole", async (req: Request, res: Response) => {
+userRoutes.put("/updaterole", authenticate, async (req: Request, res: Response) => {
   const { id, role } = req.body;
 
   const user = await userUseCase.getById(id);
