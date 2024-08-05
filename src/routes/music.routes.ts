@@ -26,7 +26,7 @@ musicRoutes.post("/uploads", authenticate, (req: Request, res: Response) => {
       description,
       lyrics,
       publisher,
-      composer,
+      composer, 
       genreId,
       albumId,
       artist,
